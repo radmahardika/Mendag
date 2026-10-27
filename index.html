@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Sorot Dagang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#FFFFFF; --surface:#FFFFFF; --fg:#1F2329; --muted:#6B7280; --line:#E5E7EB; --ink:#2B2E35;
+  --c-lilac:#E8E0EE; --c-blue:#DCE3F0; --c-sand:#F4E3C8; --c-sage:#DCE8DA; --c-rose:#F2DCDA; --c-teal:#D6EAE8; --c-butter:#F1ECCB;
+  --warn-bg:#FFF4D6; --warn-fg:#7A5A00; --bad-bg:#FBE3E1; --bad-fg:#9B2C24; --focus:#3B5BDB;
+  --f-logo:"Kaushan Script",cursive; --f-body:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:20px;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#17181B; --surface:#212328; --fg:#ECEDEF; --muted:#A3A7AF; --line:#33363C; --ink:#E6E7EA;
+  --c-lilac:#3A3442; --c-blue:#2F3747; --c-sand:#453A2A; --c-sage:#2F3B2F; --c-rose:#462F2E; --c-teal:#283D3B; --c-butter:#403C26;
+  --warn-bg:#3A3120; --warn-fg:#F2D488; --bad-bg:#45231F; --bad-fg:#F4B4AC; --focus:#8FA8FF; color-scheme:dark}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.55}
+.app{max-width:920px;margin:0 auto;padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{font-family:var(--f-logo);font-size:2.1rem;line-height:1;color:var(--ink);text-decoration:none}
+.sub{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.date{font-size:.85rem;color:var(--muted);text-align:right}
+.search{position:relative;margin-top:20px}
+.search svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:20px;height:20px;stroke:var(--muted)}
+.search input{width:100%;font:inherit;font-size:1rem;padding:14px 44px 14px 46px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--fg)}
+.search input:focus{outline:2px solid var(--focus);outline-offset:1px}
+.clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--muted);font-size:1.3rem;width:34px;height:34px;border-radius:50%;cursor:pointer}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{font:inherit;font-size:.82rem;border:1px solid var(--line);background:transparent;color:var(--muted);padding:5px 12px;border-radius:999px;cursor:pointer}
+.chip:hover,.chip[aria-pressed="true"]{color:var(--fg);border-color:var(--muted)}
+.chip:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.banner{margin-top:16px;font-size:.85rem;padding:10px 14px;border-radius:12px;background:var(--warn-bg);color:var(--warn-fg)}
+.banner.bad{background:var(--bad-bg);color:var(--bad-fg)}
+.count{margin:22px 2px 10px;font-size:.85rem;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,400px),1fr));gap:14px}
+.card{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:1fr 96px;align-items:center;gap:12px;min-height:120px;padding:16px 16px 16px 20px;border-radius:var(--r);background:var(--surface);border:1px solid var(--line);color:var(--fg);transition:border-color .15s ease,box-shadow .15s ease}
+.card:hover{border-color:var(--muted);box-shadow:0 4px 14px rgb(0 0 0 / .06)}
+.card:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+.card h2{margin:0;font-size:1.12rem;font-weight:700;line-height:1.25;text-wrap:balance}
+.card .meta{font-size:.8rem;color:var(--muted);margin-top:4px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.card .snip{font-size:.85rem;margin-top:8px;opacity:.85;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.snip:empty{display:none}
+.card .art{width:96px;height:84px;justify-self:end;background:var(--tone);border-radius:16px;padding:8px}
+.art svg{width:100%;height:100%;stroke:var(--ink);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.stale{font-size:.72rem;font-weight:700;padding:1px 8px;border-radius:999px;background:var(--warn-bg);color:var(--warn-fg)}
+mark{background:var(--c-butter);color:inherit;border-radius:3px;padding:0 2px}
+.empty{padding:40px 16px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:var(--r)}
+.back{font:inherit;font-weight:600;border:0;background:transparent;color:var(--fg);cursor:pointer;padding:8px 4px}
+.back:focus-visible{outline:2px solid var(--focus);border-radius:8px}
+.hero{margin-top:10px;background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:24px;display:grid;grid-template-columns:1fr 150px;gap:12px;align-items:center}
+.hero h1{margin:0;font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.15;text-wrap:balance}
+.hero .full{color:var(--muted);font-weight:600;margin-top:4px}
+.hero p{margin:12px 0 0;max-width:62ch;white-space:pre-line}
+.hero .art{width:150px;height:130px;background:var(--tone);border-radius:20px;padding:12px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.tag{font-size:.75rem;font-weight:600;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.sec{margin-top:26px}
+.sec h3{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:10px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}
+.kpi .v{font-size:1.25rem;font-weight:700;font-variant-numeric:tabular-nums}
+.kpi .v.todo{color:var(--muted);font-weight:500;font-size:.95rem}
+.kpi .l{font-size:.82rem;color:var(--muted)}
+ul.hl{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+ul.hl li{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px 12px 38px;position:relative;white-space:pre-line}
+ul.hl li::before{content:"";position:absolute;left:15px;top:19px;width:9px;height:9px;border-radius:50%;background:var(--tone)}
+.qa details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:8px}
+.qa summary{cursor:pointer;padding:12px 14px;font-weight:600}
+.qa details p{margin:0;padding:0 14px 14px;max-width:68ch;white-space:pre-line}
+.foot{margin-top:26px;font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);padding-top:14px;display:flex;flex-wrap:wrap;gap:6px 20px}
+@media (max-width:520px){
+  .card{grid-template-columns:1fr 76px}.card .art{width:76px;height:68px}
+  .hero{grid-template-columns:1fr}.hero .art{display:none}
+}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div>
+      <a class="logo" href="#" id="home-link">Sorot Dagang</a>
+      <div class="sub">Pengingat highlight perdagangan</div>
+    </div>
+    <div class="date" id="today"></div>
+  </header>
+
+  <section id="list-view">
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Cari program, angka, atau kata kunci… (mis. MoU, UMKM, Belanda)" autocomplete="off" aria-label="Cari">
+      <button class="clear" id="clear" aria-label="Hapus pencarian" hidden>×</button>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div id="status"></div>
+    <div class="count" id="count"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="detail-view" hidden></section>
+</div>
+
+<script>
+// Isi aplikasi dibaca dari data/programs.json. Ubah file itu untuk memperbarui highlight.
+const STALE_DAYS = 30;
+const QUICK = ['transaksi','MoU','UMKM','Belanda','universitas'];
+const ART = {
+  expo:'<svg viewBox="0 0 120 100"><path d="M14 86h92"/><path d="M22 86V40l38-20 38 20v46"/><path d="M22 40h76"/><rect x="34" y="52" width="18" height="34"/><rect x="66" y="52" width="20" height="14"/><path d="M60 20V8l14 5-14 5"/><circle cx="96" cy="16" r="6"/><path d="M8 30q6-6 12 0"/></svg>',
+  campus:'<svg viewBox="0 0 120 100"><path d="M60 14 12 34l48 20 48-20z"/><path d="M30 42v22q30 16 60 0V42"/><path d="M104 36v26"/><circle cx="104" cy="66" r="4"/><path d="M50 82h20M60 70v12"/><path d="M84 84l6-10 6 10"/></svg>',
+  ship:'<svg viewBox="0 0 120 100"><path d="M12 66h96l-12 18H24z"/><rect x="30" y="44" width="18" height="22"/><rect x="50" y="44" width="18" height="22"/><rect x="40" y="26" width="18" height="18"/><path d="M80 66V38h12v28"/><path d="M8 92q8-6 16 0t16 0 16 0 16 0 16 0 16 0"/><path d="M98 18q4-8 12-4"/></svg>',
+  scale:'<svg viewBox="0 0 120 100"><path d="M60 12v72M36 86h48"/><path d="M22 28h76"/><path d="M22 28 10 56h24z"/><path d="M98 28 86 52h24z"/><path d="M10 56q12 10 24 0M86 52q12 10 24 0"/><path d="M66 8l6-4M54 8l-6-4"/></svg>',
+  shield:'<svg viewBox="0 0 120 100"><path d="M60 8 26 20v26c0 22 14 38 34 46 20-8 34-24 34-46V20z"/><path d="m45 50 10 10 22-22"/><path d="M104 20l8-6M104 34h10M10 30h8"/></svg>',
+  globe:'<svg viewBox="0 0 120 100"><circle cx="56" cy="52" r="36"/><path d="M20 52h72M56 16c-14 18-14 54 0 72M56 16c14 18 14 54 0 72"/><path d="M84 18l18-8 4 18"/><path d="M102 10 74 40"/></svg>',
+  local:'<svg viewBox="0 0 120 100"><path d="M10 50h34v34H10z"/><path d="M6 50l7-14h28l7 14"/><path d="M22 84V66h10v18"/><circle cx="90" cy="50" r="22"/><path d="M68 50h44M90 28c-8 10-8 34 0 44M90 28c8 10 8 34 0 44"/><path d="M50 60q12-20 30-16"/><path d="m74 38 6 6-8 4"/></svg>',
+  chart:'<svg viewBox="0 0 120 100"><path d="M14 86h92M14 86V14"/><rect x="26" y="56" width="14" height="30"/><rect x="50" y="40" width="14" height="46"/><rect x="74" y="26" width="14" height="60"/><path d="M24 44 50 28l22 8 28-22"/></svg>',
+  doc:'<svg viewBox="0 0 120 100"><path d="M30 8h44l18 18v66H30z"/><path d="M74 8v18h18"/><path d="M42 42h38M42 54h38M42 66h26"/><path d="m86 70 18-18 6 6-18 18h-6z"/></svg>'
+};
+const TONES = ['lilac','blue','sand','sage','rose','teal','butter'];
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm = s => String(s ?? '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+const fmtDate = s => { const d = new Date(s); return isNaN(d) ? '–' : d.toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'}); };
+const isStale = s => { const d = new Date(s); return !isNaN(d) && (Date.now() - d) / 864e5 > STALE_DAYS; };
+$('#today').textContent = new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+let programs = [], filterStale = false;
+
+function clean(d, i){
+  const arr = v => Array.isArray(v) ? v : [];
+  return {
+    id: String(d.id || 'program-' + i), title: d.title || '(tanpa judul)', full: d.full || '',
+    art: ART[d.art] ? d.art : 'doc', tone: TONES.includes(d.tone) ? d.tone : TONES[i % TONES.length],
+    updated: d.updated || '', summary: d.summary || '', source: d.source || '',
+    tags: arr(d.tags), kpis: arr(d.kpis), highlights: arr(d.highlights), qa: arr(d.qa)
+  };
+}
+function haystack(p){
+  return [p.title,p.full,p.summary,p.source,...p.tags,...p.highlights,...p.kpis.flatMap(k=>[k.label,k.value]),...p.qa.flatMap(x=>[x.q,x.a])].filter(Boolean);
+}
+function mark(text, q){
+  const t = esc(text); if(!q) return t;
+  const re = new RegExp('('+esc(q).replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+  return t.replace(re,'<mark>$1</mark>');
+}
+
+function renderList(){
+  const raw = $('#q').value.trim(), q = norm(raw);
+  $('#clear').hidden = !raw;
+  const staleCount = programs.filter(p => isStale(p.updated)).length;
+  $('#chips').innerHTML = QUICK.map(c=>`<button class="chip" data-q="${esc(c)}">${esc(c)}</button>`).join('')
+    + (staleCount ? `<button class="chip" id="stale-chip" aria-pressed="${filterStale}">Perlu diperbarui (${staleCount})</button>` : '');
+  const rows = programs.filter(p => !filterStale || isStale(p.updated)).map(p => {
+    if(!q) return {p, snip: p.summary || p.full};
+    const hit = haystack(p).find(s => norm(s).includes(q));
+    return hit ? {p, snip: hit} : null;
+  }).filter(Boolean);
+  $('#count').textContent = q ? `${rows.length} program cocok dengan "${raw}"` : `${rows.length} program`;
+  $('#grid').innerHTML = rows.length ? rows.map(({p,snip}) => `
+    <button class="card" style="--tone:var(--c-${p.tone})" data-id="${esc(p.id)}">
+      <div><h2>${mark(p.title,raw)}</h2>
+      <div class="meta">Diperbarui ${fmtDate(p.updated)} ${isStale(p.updated)?'<span class="stale">Perlu diperbarui</span>':''}</div>
+      <div class="snip">${mark(snip,raw)}</div></div>
+      <div class="art" aria-hidden="true">${ART[p.art]}</div>
+    </button>`).join('') : `<div class="empty">Tidak ada program yang cocok dengan "${esc(raw)}".</div>`;
+}
+
+function renderDetail(p){
+  const v = $('#detail-view');
+  v.style.setProperty('--tone', `var(--c-${p.tone})`);
+  v.innerHTML = `
+    <button class="back" data-act="home">← Kembali ke daftar</button>
+    <div class="hero">
+      <div><h1>${esc(p.title)}</h1>${p.full?`<div class="full">${esc(p.full)}</div>`:''}${p.summary?`<p>${esc(p.summary)}</p>`:''}
+      ${p.tags.length?`<div class="tags">${p.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''}</div>
+      <div class="art" aria-hidden="true">${ART[p.art]}</div>
+    </div>
+    ${isStale(p.updated)?`<div class="banner">Isi program ini belum diperbarui lebih dari ${STALE_DAYS} hari. Cek apakah ada data terbaru.</div>`:''}
+    ${p.kpis.length?`<div class="sec"><h3>Angka kunci</h3><div class="kpis">${p.kpis.map(k=>`
+      <div class="kpi"><div class="v ${k.value?'':'todo'}">${k.value?esc(k.value):'Isi data terbaru'}</div><div class="l">${esc(k.label)}</div></div>`).join('')}</div></div>`:''}
+    <div class="sec"><h3>Highlight</h3>
+      ${p.highlights.length?`<ul class="hl">${p.highlights.map(h=>`<li>${esc(h)}</li>`).join('')}</ul>`:'<div class="empty">Belum ada highlight.</div>'}</div>
+    ${p.qa.length?`<div class="sec qa"><h3>Pertanyaan yang sering muncul</h3>${p.qa.map(x=>`<details><summary>${esc(x.q)}</summary><p>${esc(x.a)}</p></details>`).join('')}</div>`:''}
+    <div class="foot">${p.source?`<span>Sumber / PIC: ${esc(p.source)}</span>`:''}<span>Terakhir diperbarui: ${fmtDate(p.updated)}</span></div>`;
+}
+
+function route(){
+  const p = programs.find(x => x.id === decodeURIComponent(location.hash.slice(1)));
+  $('#list-view').hidden = !!p; $('#detail-view').hidden = !p;
+  if(p){ renderDetail(p); window.scrollTo(0,0); } else renderList();
+}
+
+document.addEventListener('click', e => {
+  const t = e.target.closest('.card,.chip,[data-act]'); if(!t) return;
+  if(t.matches('.card')) location.hash = t.dataset.id;
+  else if(t.id === 'stale-chip'){ filterStale = !filterStale; renderList(); }
+  else if(t.matches('.chip')){ $('#q').value = t.dataset.q; renderList(); }
+  else if(t.dataset.act === 'home') location.hash = '';
+});
+$('#q').addEventListener('input', renderList);
+$('#clear').onclick = () => { $('#q').value = ''; renderList(); $('#q').focus(); };
+$('#home-link').onclick = e => { e.preventDefault(); location.hash = ''; };
+window.addEventListener('hashchange', route);
+
+fetch('data/programs.json', {cache:'no-store'})
+  .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+  .then(list => { programs = (Array.isArray(list) ? list : []).map(clean); route(); })
+  .catch(() => {
+    $('#status').innerHTML = '<div class="banner bad">Data tidak bisa dimuat. Pastikan file data/programs.json ada dan formatnya benar, lalu buka aplikasi lewat GitHub Pages atau server lokal (bukan klik dua kali file index.html).</div>';
+  });
+</script>
+</body>
+</html>

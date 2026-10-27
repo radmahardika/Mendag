@@ -1,0 +1,95 @@
+[
+  {
+    "id": "tei",
+    "title": "TEI",
+    "full": "",
+    "art": "expo",
+    "tone": "lilac",
+    "updated": "2026-10-27",
+    "summary": "",
+    "tags": ["transaksi", "MoU", "UMKM", "pengunjung", "India", "Belanda", "Bangladesh", "Uni Emirat Arab", "Jepang"],
+    "kpis": [
+      { "label": "Transaksi (target USD 17,5 M)", "value": "USD 22,94 M" },
+      { "label": "MoU", "value": "426" },
+      { "label": "Transaksi UMKM", "value": "USD 510,79 juta" },
+      { "label": "Pengunjung", "value": "45.287" }
+    ],
+    "highlights": [
+      "Transaksi USD 22,94 M, melampaui target USD 17,5 M.",
+      "MoU: 426. Hari pertama 168 MoU ke 22 negara, senilai USD 13,2 M.",
+      "Transaksi UMKM: USD 510,79 juta.",
+      "Top 5 negara transaksi terbanyak: India, Belanda, Bangladesh, Uni Emirat Arab, dan Jepang.",
+      "Produk: makanan dan minuman, perhiasan, produk kayu, produk pertanian, dan kertas.",
+      "Pengunjung: 45.287 visitor. Dari luar negeri 9.600 orang dari 151 negara, terbanyak India, Malaysia, RRT, Saudi Arabia, dan Taiwan."
+    ],
+    "qa": [],
+    "source": ""
+  },
+  {
+    "id": "campuspreneur",
+    "title": "Campuspreneur",
+    "full": "",
+    "art": "campus",
+    "tone": "blue",
+    "updated": "2026-10-27",
+    "summary": "",
+    "tags": ["universitas", "kampus", "MoU", "TEI", "Binus", "Telkom", "IPB"],
+    "kpis": [
+      { "label": "Universitas yang sudah MoU dengan Kemendag", "value": "27" },
+      { "label": "Universitas ikut TEI", "value": "20" },
+      { "label": "Transaksi universitas di TEI", "value": "USD 24,57 juta" }
+    ],
+    "highlights": [
+      "Sudah MoU dengan Kemendag: 27 universitas.",
+      "TEI: 20 universitas dengan transaksi USD 24,57 juta. Top 3: Binus, Telkom, IPB."
+    ],
+    "qa": [],
+    "source": ""
+  },
+  {
+    "id": "pilihan-busan",
+    "title": "Pilihan Busan",
+    "full": "",
+    "art": "ship",
+    "tone": "sand",
+    "updated": "2026-10-27",
+    "summary": "",
+    "tags": ["transaksi", "MoU", "UMKM", "Belanda", "UAE", "Jepang", "Arab Saudi", "Brasil", "Taiwan", "Vietnam"],
+    "kpis": [
+      { "label": "Transaksi", "value": "USD 44,8 juta" },
+      { "label": "MoU", "value": "14" }
+    ],
+    "highlights": [
+      "Transaksi: USD 44,8 juta.",
+      "MoU: 14 (10 dilakukan di booth Pilihan BuSan, 4 sisanya mandiri).",
+      "Top 5 negara tujuan:\n• Belanda USD 30,15 juta (6 UMKM PPPB)\n• UAE USD 10,28 juta (3 UMKM)\n• Jepang USD 1,00 juta\n• Arab Saudi USD 811,92 ribu\n• Brasil USD 428,00 ribu (2 UMKM)",
+      "Produk yang MoU:\n• Craftote ke Belanda dan UAE\n• Awan Crackers ke Belanda dan Arab Saudi\n• Javani ke Jepang\n• HJ Karpet ke Brasil\n• HomLiv ke Brasil\n• Imago Honet ke UAE\n• Ong Birdnest ke Taiwan\n• Royal Alexa ke Vietnam"
+    ],
+    "qa": [],
+    "source": ""
+  },
+  {
+    "id": "neraca",
+    "title": "Neraca Perdagangan",
+    "full": "", "art": "scale", "tone": "sage", "updated": "2026-10-27",
+    "summary": "", "tags": [], "kpis": [], "highlights": [], "qa": [], "source": ""
+  },
+  {
+    "id": "pengamanan",
+    "title": "Pengamanan Pasar Dalam Negeri",
+    "full": "", "art": "shield", "tone": "rose", "updated": "2026-10-27",
+    "summary": "", "tags": [], "kpis": [], "highlights": [], "qa": [], "source": ""
+  },
+  {
+    "id": "perluasan",
+    "title": "Perluasan Pasar Ekspor",
+    "full": "", "art": "globe", "tone": "teal", "updated": "2026-10-27",
+    "summary": "", "tags": [], "kpis": [], "highlights": [], "qa": [], "source": ""
+  },
+  {
+    "id": "lokal-global",
+    "title": "Dari Lokal untuk Global",
+    "full": "", "art": "local", "tone": "butter", "updated": "2026-10-27",
+    "summary": "", "tags": [], "kpis": [], "highlights": [], "qa": [], "source": ""
+  }
+]
