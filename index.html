@@ -33,6 +33,7 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .search input:focus{outline:3px solid var(--focus);outline-offset:2px}
 .clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--ink);font-size:1.3rem;width:34px;height:34px;border-radius:50%;cursor:pointer}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chips:empty{display:none}
 .chip{font:inherit;font-size:.82rem;font-weight:600;border:1.5px solid var(--line);background:var(--surface);color:var(--fg);padding:4px 12px;border-radius:999px;cursor:pointer}
 .chip:hover,.chip[aria-pressed="true"]{background:var(--inv-bg);color:var(--inv-fg)}
 .chip:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
@@ -105,7 +106,6 @@ ul.hl li::before{content:"";position:absolute;left:15px;top:19px;width:9px;heigh
 // Jika Sheets tidak bisa diakses, aplikasi memakai cadangan data/programs.json.
 const SHEET_ID = '1lMxNH_I_WVroNFj51SqFH_iCzlElwYa-XSXc2lQ0_54';
 const STALE_DAYS = 30;
-const QUICK = ['transaksi','MoU','UMKM','Belanda','universitas'];
 const ART = {
   expo:'<svg viewBox="0 0 120 100"><path d="M14 86h92"/><path d="M22 86V40l38-20 38 20v46"/><path d="M22 40h76"/><rect x="34" y="52" width="18" height="34"/><rect x="66" y="52" width="20" height="14"/><path d="M60 20V8l14 5-14 5"/><circle cx="96" cy="16" r="6"/><path d="M8 30q6-6 12 0"/></svg>',
   campus:'<svg viewBox="0 0 120 100"><path d="M60 14 12 34l48 20 48-20z"/><path d="M30 42v22q30 16 60 0V42"/><path d="M104 36v26"/><circle cx="104" cy="66" r="4"/><path d="M50 82h20M60 70v12"/><path d="M84 84l6-10 6 10"/></svg>',
@@ -150,8 +150,8 @@ function renderList(){
   const raw = $('#q').value.trim(), q = norm(raw);
   $('#clear').hidden = !raw;
   const staleCount = programs.filter(p => isStale(p.updated)).length;
-  $('#chips').innerHTML = QUICK.map(c=>`<button class="chip" data-q="${esc(c)}">${esc(c)}</button>`).join('')
-    + (staleCount ? `<button class="chip" id="stale-chip" aria-pressed="${filterStale}">Perlu diperbarui (${staleCount})</button>` : '');
+  $('#chips').innerHTML = staleCount
+    ? `<button class="chip" id="stale-chip" aria-pressed="${filterStale}">Perlu diperbarui (${staleCount})</button>` : '';
   const rows = programs.filter(p => !filterStale || isStale(p.updated)).map(p => {
     if(!q) return {p, snip: null};
     const hit = haystack(p).find(s => norm(s).includes(q));
@@ -191,10 +191,9 @@ function route(){
 }
 
 document.addEventListener('click', e => {
-  const t = e.target.closest('.card,.chip,[data-act]'); if(!t) return;
+  const t = e.target.closest('.card,#stale-chip,[data-act]'); if(!t) return;
   if(t.matches('.card')) location.hash = t.dataset.id;
   else if(t.id === 'stale-chip'){ filterStale = !filterStale; renderList(); }
-  else if(t.matches('.chip')){ $('#q').value = t.dataset.q; renderList(); }
   else if(t.dataset.act === 'home') location.hash = '';
 });
 $('#q').addEventListener('input', renderList);
