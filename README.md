@@ -7,9 +7,21 @@ Aplikasi web pengingat highlight perdagangan untuk bahan Mendag. Halaman awal me
 | File | Fungsi |
 | --- | --- |
 | `index.html` | Tampilan aplikasi. Tidak perlu diubah untuk memperbarui isi. |
-| `data/programs.json` | Seluruh isi program dan highlight. Ubah file ini untuk memperbarui data. |
+| `data/programs.json` | Cadangan. Dipakai hanya jika Google Sheets tidak bisa diakses. |
 
 ## Cara memperbarui highlight
+
+Sumber data utama adalah Google Sheets [Contekan – Data](https://docs.google.com/spreadsheets/d/1lMxNH_I_WVroNFj51SqFH_iCzlElwYa-XSXc2lQ0_54/edit). Aplikasi membacanya setiap kali dibuka, dan perubahan biasanya tampil dalam 1–5 menit.
+
+- Tab **Program**: satu baris per program.
+- Tab **Isi**: satu baris per angka kunci, highlight, atau tanya-jawab.
+- Tab **Petunjuk**: penjelasan setiap kolom.
+
+Sheets harus tetap dibagikan ke **Siapa saja yang memiliki link** (Pelihat). Jangan ubah nama tab atau judul kolom di baris 1.
+
+Program yang tanggal **Terakhir diperbarui**-nya lebih dari 30 hari akan ditandai **Perlu diperbarui**.
+
+## Memperbarui cadangan (opsional)
 
 1. Buka `data/programs.json` di GitHub, lalu klik ikon pensil (Edit).
 2. Ubah atau tambah isi pada program yang dimaksud.

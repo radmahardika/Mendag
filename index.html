@@ -107,7 +107,9 @@ ul.hl li::before{content:"";position:absolute;left:15px;top:19px;width:9px;heigh
 </div>
 
 <script>
-// Isi aplikasi dibaca dari data/programs.json. Ubah file itu untuk memperbarui highlight.
+// Isi aplikasi dibaca dari Google Sheets (tab Program dan Isi).
+// Jika Sheets tidak bisa diakses, aplikasi memakai cadangan data/programs.json.
+const SHEET_ID = '1lMxNH_I_WVroNFj51SqFH_iCzlElwYa-XSXc2lQ0_54';
 const STALE_DAYS = 30;
 const QUICK = ['transaksi','MoU','UMKM','Belanda','universitas'];
 const ART = {
@@ -208,12 +210,78 @@ $('#clear').onclick = () => { $('#q').value = ''; renderList(); $('#q').focus();
 $('#home-link').onclick = e => { e.preventDefault(); location.hash = ''; };
 window.addEventListener('hashchange', route);
 
-fetch('data/programs.json', {cache:'no-store'})
-  .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
-  .then(list => { programs = (Array.isArray(list) ? list : []).map(clean); route(); })
-  .catch(() => {
-    $('#status').innerHTML = '<div class="banner bad">Data tidak bisa dimuat. Pastikan file data/programs.json ada dan formatnya benar, lalu buka aplikasi lewat GitHub Pages atau server lokal (bukan klik dua kali file index.html).</div>';
+// CSV sederhana: mendukung tanda kutip, koma dan baris baru di dalam sel.
+function parseCSV(text){
+  const rows = []; let row = [], cell = '', q = false;
+  for(let i = 0; i < text.length; i++){
+    const c = text[i];
+    if(q){
+      if(c === '"' && text[i+1] === '"'){ cell += '"'; i++; }
+      else if(c === '"') q = false;
+      else cell += c;
+    } else if(c === '"') q = true;
+    else if(c === ',') { row.push(cell); cell = ''; }
+    else if(c === '\n' || c === '\r'){
+      if(c === '\r' && text[i+1] === '\n') i++;
+      row.push(cell); rows.push(row); row = []; cell = '';
+    } else cell += c;
+  }
+  if(cell !== '' || row.length) { row.push(cell); rows.push(row); }
+  return rows;
+}
+// Baris pertama = judul kolom; dicocokkan berdasarkan nama, bukan posisi.
+function readTab(rows){
+  const head = (rows.shift() || []).map(h => norm(h).trim());
+  const col = name => head.indexOf(norm(name));
+  return rows.filter(r => r.some(v => v.trim())).map(r => name => (r[col(name)] ?? '').trim());
+}
+async function sheetTab(name){
+  const r = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(name)}&_=${Date.now()}`);
+  if(!r.ok) throw new Error(r.status);
+  const text = await r.text();
+  if(text.trimStart().startsWith('<')) throw new Error('bukan CSV');
+  return readTab(parseCSV(text));
+}
+async function loadFromSheet(){
+  const [prog, isi] = await Promise.all([sheetTab('Program'), sheetTab('Isi')]);
+  const list = prog.filter(g => g('ID') && g('Nama program')).map(g => ({
+    id: g('ID'), title: g('Nama program'), full: g('Subjudul'), summary: g('Ringkasan'),
+    tags: g('Kata kunci').split(',').map(s => s.trim()).filter(Boolean),
+    art: g('Gambar'), tone: g('Warna'), source: g('Sumber / PIC'), updated: g('Terakhir diperbarui'),
+    kpis: [], highlights: [], qa: []
+  }));
+  if(!list.length) throw new Error('tab Program kosong');
+  const byId = Object.fromEntries(list.map(p => [p.id, p]));
+  isi.forEach(g => {
+    const p = byId[g('ID program')]; if(!p) return;
+    const kind = norm(g('Jenis')), title = g('Judul / Pertanyaan'), body = g('Isi / Nilai');
+    if(kind.startsWith('angka')) p.kpis.push({label: title, value: body});
+    else if(kind.startsWith('tanya')) p.qa.push({q: title, a: body});
+    else if(body) p.highlights.push(body);
   });
+  return list;
+}
+async function loadFallback(){
+  const r = await fetch('data/programs.json', {cache:'no-store'});
+  if(!r.ok) throw new Error(r.status);
+  return r.json();
+}
+
+(async () => {
+  let list;
+  try { list = await loadFromSheet(); }
+  catch {
+    try {
+      list = await loadFallback();
+      $('#status').innerHTML = '<div class="banner">Google Sheets tidak bisa diakses, jadi aplikasi menampilkan data cadangan yang mungkin belum terbaru. Pastikan Sheets dibagikan ke "Siapa saja yang memiliki link".</div>';
+    } catch {
+      $('#status').innerHTML = '<div class="banner bad">Data tidak bisa dimuat. Periksa koneksi internet lalu muat ulang halaman.</div>';
+      return;
+    }
+  }
+  programs = (Array.isArray(list) ? list : []).map(clean);
+  route();
+})();
 </script>
 </body>
 </html>
