@@ -1,4 +1,4 @@
-# Sorot Dagang
+# Contekan
 
 Aplikasi web pengingat highlight perdagangan untuk bahan Mendag. Halaman awal menampilkan daftar program dengan kolom pencarian. Klik sebuah program untuk membuka detailnya: angka kunci, highlight, dan pertanyaan yang sering muncul.
 
