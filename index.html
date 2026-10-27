@@ -62,7 +62,7 @@ mark{background:var(--warn-bg);color:var(--warn-fg);border-radius:3px;padding:0 
 .sec h3{font-size:.76rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:10px}
 .kpi{background:var(--soft);border-radius:14px;padding:14px}
-.kpi .v{font-size:1.3rem;font-weight:800;font-variant-numeric:tabular-nums}
+.kpi .v{margin-top:2px;font-size:1.3rem;font-weight:800;font-variant-numeric:tabular-nums}
 .kpi .v.todo{color:var(--muted);font-weight:600;font-size:.95rem}
 .kpi .l{font-size:.84rem;color:var(--muted);font-weight:600}
 ul.hl{margin:0;padding:0;list-style:none;display:grid;gap:8px}
@@ -177,7 +177,7 @@ function renderDetail(p){
     </div>
     ${isStale(p.updated)?`<div class="banner">Isi program ini belum diperbarui lebih dari ${STALE_DAYS} hari. Cek apakah ada data terbaru.</div>`:''}
     ${p.kpis.length?`<div class="sec"><h3>Angka kunci</h3><div class="kpis">${p.kpis.map(k=>`
-      <div class="kpi"><div class="v ${k.value?'':'todo'}">${k.value?esc(k.value):'Isi data terbaru'}</div><div class="l">${esc(k.label)}</div></div>`).join('')}</div></div>`:''}
+      <div class="kpi"><div class="l">${esc(k.label)}</div><div class="v ${k.value?'':'todo'}">${k.value?esc(k.value):'Isi data terbaru'}</div></div>`).join('')}</div></div>`:''}
     <div class="sec"><h3>Highlight</h3>
       ${p.highlights.length?`<ul class="hl">${p.highlights.map(h=>`<li>${esc(h)}</li>`).join('')}</ul>`:'<div class="empty">Belum ada highlight.</div>'}</div>
     ${p.qa.length?`<div class="sec qa"><h3>Pertanyaan yang sering muncul</h3>${p.qa.map(x=>`<details><summary>${esc(x.q)}</summary><p>${esc(x.a)}</p></details>`).join('')}</div>`:''}
